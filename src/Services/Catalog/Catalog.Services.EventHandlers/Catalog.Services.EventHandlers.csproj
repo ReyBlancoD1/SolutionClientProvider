@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Catalog.Common\Catalog.Common.csproj" />
     <ProjectReference Include="..\Catalog.Persistence.Database\Catalog.Persistence.Database.csproj" />
   </ItemGroup>
 
