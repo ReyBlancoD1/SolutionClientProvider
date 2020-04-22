@@ -12,7 +12,7 @@ using Service.Common.Collection;
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    [Route("stocks")]
+    [Route("v1/stocks")]
     public class ProductInStockController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;

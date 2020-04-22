@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Customer.Api.Controllers
 {
     [ApiController]
-    [Route("clients")]
+    [Route("v1/clients")]
     public class ClientController : ControllerBase
     {
         private readonly IClientQueryService _clientQueryService;
