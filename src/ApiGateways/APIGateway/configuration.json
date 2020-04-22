@@ -1,18 +1,26 @@
 {
   "ReRoutes": [
     {
-      //De donde viene
-      "DownstreamPathTemplate": "/{url}",
+      //Settings - Catalog API - Stocks and Products
+      "DownstreamPathTemplate": "/v1/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 56601
+          "Port": 20000
         }
       ],
-      "UpstreamPathTemplate": "/{url}",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamPathTemplate": "/v1/{url}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ]
     },
+    //Ejemplo con API externo
+    //http://dummy.restapiexample.com/api/v1/employees
+    //http://localhost:5001/api/v1/employees
     {
       "DownstreamPathTemplate": "/api/v1/{everything}",
       "DownstreamScheme": "http",
