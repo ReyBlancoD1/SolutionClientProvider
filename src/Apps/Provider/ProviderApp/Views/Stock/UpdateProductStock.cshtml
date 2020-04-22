@@ -1,4 +1,4 @@
-﻿@model ProductStock
+﻿@model ProductDto
 @{
     ViewData["Title"] = "Update Product Stock";
 }
@@ -23,8 +23,9 @@
         <input class="form-control" asp-for="price" readonly />
     </div>
     <div class="form-group">
-        <label asp-for="stock"></label>
-        <input class="form-control" asp-for="stock" />
+        <span>Current stock is @Model.stock.Stock . Add a number to increase Stock</span>
+        <label asp-for="stock.Stock"></label>
+        <input class="form-control" asp-for="stock.Stock" value="0" />
     </div>
     <div class="text-center panel-body">
         <button type="submit" class="btn btn-sm btn-primary">Update</button>
@@ -42,7 +43,7 @@
                 <td>@Model.name</td>
                 <td>@Model.description</td>
                 <td>@Model.price</td>
-                <td>@Model.stock</td>
+                <td>@Model.stock.Stock</td>
 
             </tr>
         </tbody>

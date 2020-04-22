@@ -20,13 +20,13 @@ namespace ProviderApp.Controllers
         {
             Route route = new Route().GetRoute();
 
-            Stock objStock = new Stock();
+            ProductStockDto objStock = new ProductStockDto();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(route.Address + "/v1/products"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    objStock = JsonConvert.DeserializeObject<Stock>(apiResponse);
+                    objStock = JsonConvert.DeserializeObject<ProductStockDto>(apiResponse);
                 }
             }
             return View(objStock);
@@ -35,20 +35,20 @@ namespace ProviderApp.Controllers
         public async Task<IActionResult> UpdateProductStock(int id)
         {
             Route route = new Route().GetRoute();
-            ProductStock product = new ProductStock();
+            ProductDto product = new ProductDto();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(route.Address + "/v1/products/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    product = JsonConvert.DeserializeObject<ProductStock>(apiResponse);
+                    product = JsonConvert.DeserializeObject<ProductDto>(apiResponse);
                 }
             }
             return View(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProductStock(int id, ProductStock product)
+        public async Task<IActionResult> UpdateProductStock(int id, ProductDto product)
         {
             Route route = new Route().GetRoute();
             using (var httpClient = new HttpClient())
@@ -58,7 +58,7 @@ namespace ProviderApp.Controllers
                     RequestUri = new Uri(route.Address + "/v1/stocks/"),
                     Method = new HttpMethod("PUT"),
 
-                    Content = new StringContent("{\"items\": [ { \"productId\": " + product.productId + ", \"stock\": " + product.stock + ", \"action\": 0 } ] }", Encoding.UTF8, "application/json")
+                    Content = new StringContent("{\"items\": [ { \"productId\": " + product.productId + ", \"stock\": " + product.stock.Stock + ", \"action\": 0 } ] }", Encoding.UTF8, "application/json")
                 };
 
                 var response = await httpClient.SendAsync(request);

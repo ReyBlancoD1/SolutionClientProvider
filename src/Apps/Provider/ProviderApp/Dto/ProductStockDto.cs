@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProviderApp.Models
 {
-    public class Stock
+    public class ProductStockDto
     {       
         public string hasItems { get; set; }
 
-        public List<ProductStock> items { get; set; }
+        public List<ProductDto> items { get; set; }
     }
 }

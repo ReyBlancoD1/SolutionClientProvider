@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProviderApp.Models
 {
-    public class ProductStock
+    public class ProductDto
     {
         public int productId { get; set; }
 
@@ -16,7 +16,6 @@ namespace ProviderApp.Models
 
         public decimal price { get; set; }
 
-        public int? stock { get; set; }
-
+        public StockDto stock { get; set; }
     }
 }

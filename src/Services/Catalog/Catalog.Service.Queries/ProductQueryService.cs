@@ -31,6 +31,7 @@ namespace Catalog.Service.Queries
         {
             var collection = await _context.Products
                 .Where(x => products == null || products.Contains(x.ProductId))
+                .Include(z => z.Stock)
                 .OrderByDescending(x => x.ProductId)
                 .GetPagedAsync(page, take);
 
@@ -39,7 +40,7 @@ namespace Catalog.Service.Queries
 
         public async Task<ProductDto> GetAsync(int id)
         {
-            return (await _context.Products.SingleAsync(x => x.ProductId == id)).MapTo<ProductDto>();
+            return (await _context.Products.Include(z => z.Stock).SingleAsync(x => x.ProductId == id)).MapTo<ProductDto>();
         }
     }
 }
