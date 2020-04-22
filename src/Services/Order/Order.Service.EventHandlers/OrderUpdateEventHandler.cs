@@ -1,5 +1,6 @@
 ﻿using Catalog.Services.EventHandlers.Commands;
 using MediatR;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
 using Order.Domain;
 using Order.Persistence.Database;
@@ -8,6 +9,8 @@ using Order.Service.Proxies.Catalog;
 using Order.Service.Proxies.Catalog.Commands;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using static Catalog.Common.Enums;
@@ -47,6 +50,21 @@ namespace Order.Service.EventHandlers
 
                     _context.Orders.Update(stocks);
                     await _context.SaveChangesAsync();
+
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress("globarch.aes@gmail.com");
+                    mailMessage.To.Add("globarch.aes@gmail.com");
+                    mailMessage.Body = "Tu orden";
+                    mailMessage.Subject = "subject";
+                    mailMessage.IsBodyHtml = false;
+
+                    SmtpClient client = new SmtpClient("smtp.gmail.com");
+                    client.UseDefaultCredentials = true;
+                    client.Credentials = new NetworkCredential("globarch.aes@gmail.com", "AES123456@");
+                    client.Port = 587;
+                    client.EnableSsl = true;
+
+                    client.Send(mailMessage);
                 }
             }
             else
