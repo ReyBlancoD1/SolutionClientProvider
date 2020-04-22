@@ -45,5 +45,12 @@ namespace Order.Api.Controllers
             await _mediator.Publish(notification);
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrderStatus(OrderUpdateCommand notification)
+        {
+            await _mediator.Publish(notification);
+            return Ok();
+        }
     }
 }

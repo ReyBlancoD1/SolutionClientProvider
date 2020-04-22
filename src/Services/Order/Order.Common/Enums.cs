@@ -15,5 +15,6 @@
             PayPal,
             BankTransfer
         }
+                
     }
 }
