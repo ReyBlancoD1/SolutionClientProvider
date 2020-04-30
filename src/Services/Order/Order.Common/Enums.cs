@@ -4,7 +4,7 @@
     {
         public enum OrderStatus
         {
-            Cancel,
+            Canceled,
             Pending,
             Approved
         }

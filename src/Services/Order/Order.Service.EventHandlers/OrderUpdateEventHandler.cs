@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Catalog.Common.Enums;
@@ -51,26 +52,14 @@ namespace Order.Service.EventHandlers
                     _context.Orders.Update(stocks);
                     await _context.SaveChangesAsync();
 
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress("globarch.aes@gmail.com");
-                    mailMessage.To.Add("globarch.aes@gmail.com");
-                    mailMessage.Body = "Tu orden";
-                    mailMessage.Subject = "subject";
-                    mailMessage.IsBodyHtml = false;
+                    SendNotification(stocks, notification);
 
-                    SmtpClient client = new SmtpClient("smtp.gmail.com");
-                    client.UseDefaultCredentials = true;
-                    client.Credentials = new NetworkCredential("globarch.aes@gmail.com", "AES123456@");
-                    client.Port = 587;
-                    client.EnableSsl = true;
-
-                    client.Send(mailMessage);
                 }
             }
             else
             {
                 // Cancel information
-                stocks.Status = Common.Enums.OrderStatus.Cancel;
+                stocks.Status = Common.Enums.OrderStatus.Canceled;
                 stocks.CreatedAt = DateTime.UtcNow;
                 _context.Orders.Update(stocks);
                 await _context.SaveChangesAsync();
@@ -95,10 +84,40 @@ namespace Order.Service.EventHandlers
                     
                     // Update Stock command execute
                     await trx.CommitAsync();
+
+                    SendNotification(stocks, notification);
                 }
 
             }
 
+        }
+
+        private void SendNotification(Domain.Order stocks, OrderUpdateCommand notification)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("globarch.aes@gmail.com");
+            mailMessage.To.Add("globarch.aes@gmail.com");
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"\nItems:");
+
+            foreach (var item in notification.Items)
+            {
+                sb.Append($"\n ProductId - {item.ProductId}");
+                sb.Append($"\t Quantity - {item.Quantity}");
+                sb.Append($"\t Price - ${item.Price}");
+            }
+            
+            mailMessage.Body = $"Your order {stocks.OrderId} has been {stocks.Status}. {sb}";
+            mailMessage.Subject = "subject";
+            mailMessage.IsBodyHtml = false;
+
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
+            client.UseDefaultCredentials = true;
+            client.Credentials = new NetworkCredential("globarch.aes@gmail.com", "AES123456@");
+            client.Port = 587;
+            client.EnableSsl = true;
+
+            client.Send(mailMessage);
         }
 
     }
