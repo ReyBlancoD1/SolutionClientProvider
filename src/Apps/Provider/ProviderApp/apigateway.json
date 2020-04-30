@@ -1,5 +1,5 @@
 {
   "name": "API Gateway",
-  "address": "http://localhost:20000"
-  //"address": "http://localhost:7771" broker
+  //"address": "http://localhost:20000"
+  "address": "http://localhost:7771" //broker
 }
